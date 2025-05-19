@@ -44,7 +44,7 @@ Por último, crie um script SQL para a geração do banco de dados e para instru
 ![teste de cores e design](DiagramaER-Os-Segredos-do-Hospital.drawio.png)
 
 # SQL
-CREATE DATABASE hospital;
+`CREATE DATABASE hospital;
 
 CREATE TABLE Tipo_Medico (
     ID_Tipo_Medico INT PRIMARY KEY,
@@ -157,7 +157,7 @@ CREATE TABLE Internacao (
     Procedimento TEXT,
     FOREIGN KEY (FK_Enfermeiro) REFERENCES Enfermeiro(ID_Enfermeiro),
     FOREIGN KEY (Quarto) REFERENCES Quarto(ID_Quarto)
-);
+);`
 
 
 
