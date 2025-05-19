@@ -43,6 +43,123 @@ Por último, crie um script SQL para a geração do banco de dados e para instru
 
 ![teste de cores e design](DiagramaER-Os-Segredos-do-Hospital.drawio.png)
 
+# SQL
+CREATE DATABASE hospital;
+
+CREATE TABLE Tipo_Medico (
+    ID_Tipo_Medico INT PRIMARY KEY,
+    descricao VARCHAR(50)
+);
+
+
+CREATE TABLE Especialidade (
+    ID_Especialidade INT PRIMARY KEY,
+    nome VARCHAR(50)
+);
+
+
+CREATE TABLE Medico (
+    ID_Medico INT PRIMARY KEY,
+    FK_Tipo_Medico INT,
+    FK_Especialidade INT,
+    CPF VARCHAR(14),
+    RG VARCHAR(20),
+    CRM VARCHAR(20),
+    Nome VARCHAR(100),
+    Data_Nascimento DATE,
+    Telefone VARCHAR(20),
+    FOREIGN KEY (FK_Tipo_Medico) REFERENCES Tipo_Medico(ID_Tipo_Medico),
+    FOREIGN KEY (FK_Especialidade) REFERENCES Especialidade(ID_Especialidade)
+);
+
+
+CREATE TABLE Convenio (
+    ID_Convenio INT PRIMARY KEY,
+    Nome VARCHAR(100),
+    CNPJ_CNPJ VARCHAR(20),
+    Tempo_Carencia INT
+);
+
+
+CREATE TABLE Paciente (
+    ID_Paciente INT PRIMARY KEY,
+    FK_Convenio INT,
+    Nome VARCHAR(100),
+    Data_Nascimento DATE,
+    Endereco VARCHAR(200),
+    Telefone VARCHAR(20),
+    Email VARCHAR(100),
+    CPF VARCHAR(14),
+    RG VARCHAR(20),
+    Alergia TEXT,
+    FOREIGN KEY (FK_Convenio) REFERENCES Convenio(ID_Convenio)
+);
+
+
+CREATE TABLE Consulta (
+    ID_Consulta INT PRIMARY KEY,
+    FK_Paciente INT,
+    FK_Medico INT,
+    FK_Especialidade INT,
+    Data_Consulta DATE,
+    Hora_Realizacao TIME,
+    Valor_Consulta DECIMAL(10,2),
+    Nome_Convenio VARCHAR(100),
+    Numero_Carteira VARCHAR(50),
+    Sala_da_Consulta VARCHAR(20),
+    FOREIGN KEY (FK_Paciente) REFERENCES Paciente(ID_Paciente),
+    FOREIGN KEY (FK_Medico) REFERENCES Medico(ID_Medico),
+    FOREIGN KEY (FK_Especialidade) REFERENCES Especialidade(ID_Especialidade)
+);
+
+
+CREATE TABLE Receita (
+    ID_Receita INT PRIMARY KEY,
+    FK_Consulta INT,
+    Medicamentos_Receitados TEXT,
+    Quantidade_de_Remedios VARCHAR(100),
+    Instruções_De_Uso TEXT,
+    FOREIGN KEY (FK_Consulta) REFERENCES Consulta(ID_Consulta)
+);
+
+
+CREATE TABLE Enfermeiro (
+    ID_Enfermeiro INT PRIMARY KEY,
+    Nome VARCHAR(100),
+    CPF VARCHAR(14),
+    CRE VARCHAR(20)
+);
+
+
+CREATE TABLE Tipo_Quarto (
+    ID_Tipo_Quarto INT PRIMARY KEY,
+    valor_diaria DECIMAL(10,2),
+    descricao TEXT
+);
+
+
+CREATE TABLE Quarto (
+    ID_Quarto INT PRIMARY KEY,
+    FK_Tipo_Quarto INT,
+    numero VARCHAR(10),
+    tipo VARCHAR(50),
+    FOREIGN KEY (FK_Tipo_Quarto) REFERENCES Tipo_Quarto(ID_Tipo_Quarto)
+);
+
+
+CREATE TABLE Internacao (
+    ID_Internacao INT PRIMARY KEY,
+    FK_Enfermeiro INT,
+    Quarto INT,
+    Data_Entrada DATE,
+    Data_Prev_Alta DATE,
+    Data_Alta DATE,
+    Procedimento TEXT,
+    FOREIGN KEY (FK_Enfermeiro) REFERENCES Enfermeiro(ID_Enfermeiro),
+    FOREIGN KEY (Quarto) REFERENCES Quarto(ID_Quarto)
+);
+
+
 
 
 
